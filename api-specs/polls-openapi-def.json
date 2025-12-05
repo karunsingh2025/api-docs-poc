@@ -1,0 +1,702 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Polls",
+    "description": "Polls is a simple API allowing consumers to view polls and vote in them. You can view this documentation over at [Apiary](http://docs.pollsapi.apiary.io).",
+    "contact": {},
+    "version": "1.0"
+  },
+  "servers": [
+    {
+      "url": "http://polls.karunstest.apiblueprint.org/",
+      "variables": {}
+    }
+  ],
+  "paths": {
+    "/questions/{question_id}": {
+      "get": {
+        "tags": [
+          "Question"
+        ],
+        "summary": "View a Questions Detail",
+        "description": "A Question object has the following attributes:\n\n+ question\n\n+ published_at - An ISO8601 date when the question was published.\n\n+ url\n\n+ choices - An array of Choice objects.",
+        "operationId": "ViewaQuestionsDetail",
+        "parameters": [
+          {
+            "name": "question_id",
+            "in": "path",
+            "description": "ID of the Question in form of an integer",
+            "required": true,
+            "style": "simple",
+            "schema": {
+              "type": "number",
+              "format": "double",
+              "example": 1
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {},
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/ViewaQuestionsDetailresponse"
+                    },
+                    {
+                      "example": {
+                        "question": "Favourite programming language?",
+                        "published_at": "2014-11-11T08:40:51.620Z",
+                        "url": "/questions/1",
+                        "choices": [
+                          {
+                            "choice": "Swift",
+                            "url": "/questions/1/choices/1",
+                            "votes": 2048
+                          },
+                          {
+                            "choice": "Python",
+                            "url": "/questions/1/choices/2",
+                            "votes": 1024
+                          },
+                          {
+                            "choice": "Objective-C",
+                            "url": "/questions/1/choices/3",
+                            "votes": 512
+                          },
+                          {
+                            "choice": "Ruby",
+                            "url": "/questions/1/choices/4",
+                            "votes": 256
+                          }
+                        ]
+                      }
+                    }
+                  ]
+                },
+                "example": {
+                  "question": "Favourite programming language?",
+                  "published_at": "2014-11-11T08:40:51.620Z",
+                  "url": "/questions/1",
+                  "choices": [
+                    {
+                      "choice": "Swift",
+                      "url": "/questions/1/choices/1",
+                      "votes": 2048
+                    },
+                    {
+                      "choice": "Python",
+                      "url": "/questions/1/choices/2",
+                      "votes": 1024
+                    },
+                    {
+                      "choice": "Objective-C",
+                      "url": "/questions/1/choices/3",
+                      "votes": 512
+                    },
+                    {
+                      "choice": "Ruby",
+                      "url": "/questions/1/choices/4",
+                      "votes": 256
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "deprecated": false
+      }
+    },
+    "/questions/{question_id}/choices/{choice_id}": {
+      "post": {
+        "tags": [
+          "Question"
+        ],
+        "summary": "Vote on a Choice",
+        "description": "This action allows you to vote on a question's choice.",
+        "operationId": "VoteonaChoice",
+        "parameters": [
+          {
+            "name": "question_id",
+            "in": "path",
+            "description": "ID of the Question in form of an integer",
+            "required": true,
+            "style": "simple",
+            "schema": {
+              "type": "number",
+              "format": "double",
+              "example": 1
+            }
+          },
+          {
+            "name": "choice_id",
+            "in": "path",
+            "description": "ID of the Choice in form of an integer",
+            "required": true,
+            "style": "simple",
+            "schema": {
+              "type": "number",
+              "format": "double",
+              "example": 1
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "",
+            "headers": {
+              "Location": {
+                "content": {
+                  "text/plain": {
+                    "schema": {
+                      "type": "string"
+                    },
+                    "example": "/questions/1"
+                  }
+                }
+              }
+            },
+            "content": {}
+          }
+        },
+        "deprecated": false
+      }
+    },
+    "/questions": {
+      "get": {
+        "tags": [
+          "Question"
+        ],
+        "summary": "List All Questions",
+        "description": "",
+        "operationId": "ListAllQuestions",
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "description": "The page of questions to return",
+            "style": "form",
+            "explode": true,
+            "schema": {
+              "type": "number",
+              "format": "double",
+              "example": 1
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {
+              "Link": {
+                "content": {
+                  "text/plain": {
+                    "schema": {
+                      "type": "string"
+                    },
+                    "example": "</questions?page=2>; rel=\"next\""
+                  }
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ListAllQuestionsresponse"
+                  },
+                  "description": "",
+                  "example": [
+                    {
+                      "question": "Favourite programming language?",
+                      "published_at": "2014-11-11T08:40:51.620Z",
+                      "url": "/questions/1",
+                      "choices": [
+                        {
+                          "choice": "Swift",
+                          "url": "/questions/1/choices/1",
+                          "votes": 2048
+                        },
+                        {
+                          "choice": "Python",
+                          "url": "/questions/1/choices/2",
+                          "votes": 1024
+                        },
+                        {
+                          "choice": "Objective-C",
+                          "url": "/questions/1/choices/3",
+                          "votes": 512
+                        },
+                        {
+                          "choice": "Ruby",
+                          "url": "/questions/1/choices/4",
+                          "votes": 256
+                        }
+                      ]
+                    }
+                  ]
+                },
+                "example": [
+                  {
+                    "question": "Favourite programming language?",
+                    "published_at": "2014-11-11T08:40:51.620Z",
+                    "url": "/questions/1",
+                    "choices": [
+                      {
+                        "choice": "Swift",
+                        "url": "/questions/1/choices/1",
+                        "votes": 2048
+                      },
+                      {
+                        "choice": "Python",
+                        "url": "/questions/1/choices/2",
+                        "votes": 1024
+                      },
+                      {
+                        "choice": "Objective-C",
+                        "url": "/questions/1/choices/3",
+                        "votes": 512
+                      },
+                      {
+                        "choice": "Ruby",
+                        "url": "/questions/1/choices/4",
+                        "votes": 256
+                      }
+                    ]
+                  }
+                ]
+              }
+            }
+          }
+        },
+        "deprecated": false
+      },
+      "post": {
+        "tags": [
+          "Question"
+        ],
+        "summary": "Create a New Question",
+        "description": "You may create your own question using this action. It takes a JSON object containing a question and a collection of answers in the form of choices.\n\n+ question (string) - The question\n\n+ choices (array[string]) - A collection of choices.",
+        "operationId": "CreateaNewQuestion",
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "description": "The page of questions to return",
+            "style": "form",
+            "explode": true,
+            "schema": {
+              "type": "number",
+              "format": "double",
+              "example": 1
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "",
+          "content": {
+            "application/json": {
+              "schema": {
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/CreateaNewQuestionrequest"
+                  },
+                  {
+                    "example": {
+                      "question": "Favourite programming language?",
+                      "choices": [
+                        "Swift",
+                        "Python",
+                        "Objective-C",
+                        "Ruby"
+                      ]
+                    }
+                  }
+                ]
+              },
+              "example": {
+                "question": "Favourite programming language?",
+                "choices": [
+                  "Swift",
+                  "Python",
+                  "Objective-C",
+                  "Ruby"
+                ]
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "",
+            "headers": {
+              "Location": {
+                "content": {
+                  "text/plain": {
+                    "schema": {
+                      "type": "string"
+                    },
+                    "example": "/questions/2"
+                  }
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/CreateaNewQuestionresponse"
+                    },
+                    {
+                      "example": {
+                        "question": "Favourite programming language?",
+                        "published_at": "2014-11-11T08:40:51.620Z",
+                        "url": "/questions/2",
+                        "choices": [
+                          {
+                            "choice": "Swift",
+                            "url": "/questions/2/choices/1",
+                            "votes": 0
+                          },
+                          {
+                            "choice": "Python",
+                            "url": "/questions/2/choices/2",
+                            "votes": 0
+                          },
+                          {
+                            "choice": "Objective-C",
+                            "url": "/questions/2/choices/3",
+                            "votes": 0
+                          },
+                          {
+                            "choice": "Ruby",
+                            "url": "/questions/2/choices/4",
+                            "votes": 0
+                          }
+                        ]
+                      }
+                    }
+                  ]
+                },
+                "example": {
+                  "question": "Favourite programming language?",
+                  "published_at": "2014-11-11T08:40:51.620Z",
+                  "url": "/questions/2",
+                  "choices": [
+                    {
+                      "choice": "Swift",
+                      "url": "/questions/2/choices/1",
+                      "votes": 0
+                    },
+                    {
+                      "choice": "Python",
+                      "url": "/questions/2/choices/2",
+                      "votes": 0
+                    },
+                    {
+                      "choice": "Objective-C",
+                      "url": "/questions/2/choices/3",
+                      "votes": 0
+                    },
+                    {
+                      "choice": "Ruby",
+                      "url": "/questions/2/choices/4",
+                      "votes": 0
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "deprecated": false
+      }
+    },
+    "/": {
+      "get": {
+        "summary": "Retrieve the Entry Point",
+        "description": "This resource does not have any attributes. Instead it offers the initial API affordances in the form of the links in the JSON body.\n\nIt is recommended to follow the “url” link values, [Link](https://tools.ietf.org/html/rfc5988) or Location headers where applicable to retrieve resources. Instead of constructing your own URLs, to keep your client decoupled from implementation details.",
+        "operationId": "RetrievetheEntryPoint",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {},
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/RetrievetheEntryPointresponse"
+                    },
+                    {
+                      "example": {
+                        "questions_url": "/questions"
+                      }
+                    }
+                  ]
+                },
+                "example": {
+                  "questions_url": "/questions"
+                }
+              }
+            }
+          }
+        },
+        "deprecated": false
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "RetrievetheEntryPointresponse": {
+        "title": "RetrievetheEntryPointresponse",
+        "required": [
+          "questions_url"
+        ],
+        "type": "object",
+        "properties": {
+          "questions_url": {
+            "type": "string"
+          }
+        },
+        "example": {
+          "questions_url": "/questions"
+        }
+      },
+      "ViewaQuestionsDetailresponse": {
+        "title": "ViewaQuestionsDetailresponse",
+        "required": [
+          "question",
+          "published_at",
+          "url",
+          "choices"
+        ],
+        "type": "object",
+        "properties": {
+          "question": {
+            "type": "string"
+          },
+          "published_at": {
+            "type": "string"
+          },
+          "url": {
+            "type": "string"
+          },
+          "choices": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Choice"
+            },
+            "description": ""
+          }
+        },
+        "example": {
+          "question": "Favourite programming language?",
+          "published_at": "2014-11-11T08:40:51.620Z",
+          "url": "/questions/1",
+          "choices": [
+            {
+              "choice": "Swift",
+              "url": "/questions/1/choices/1",
+              "votes": 2048
+            },
+            {
+              "choice": "Python",
+              "url": "/questions/1/choices/2",
+              "votes": 1024
+            },
+            {
+              "choice": "Objective-C",
+              "url": "/questions/1/choices/3",
+              "votes": 512
+            },
+            {
+              "choice": "Ruby",
+              "url": "/questions/1/choices/4",
+              "votes": 256
+            }
+          ]
+        }
+      },
+      "Choice": {
+        "title": "Choice",
+        "required": [
+          "choice",
+          "url",
+          "votes"
+        ],
+        "type": "object",
+        "properties": {
+          "choice": {
+            "type": "string"
+          },
+          "url": {
+            "type": "string"
+          },
+          "votes": {
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        "example": {
+          "choice": "Swift",
+          "url": "/questions/1/choices/1",
+          "votes": 2048
+        }
+      },
+      "ListAllQuestionsresponse": {
+        "title": "ListAllQuestionsresponse",
+        "required": [
+          "question",
+          "published_at",
+          "url",
+          "choices"
+        ],
+        "type": "object",
+        "properties": {
+          "question": {
+            "type": "string"
+          },
+          "published_at": {
+            "type": "string"
+          },
+          "url": {
+            "type": "string"
+          },
+          "choices": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Choice"
+            },
+            "description": ""
+          }
+        },
+        "example": {
+          "question": "Favourite programming language?",
+          "published_at": "2014-11-11T08:40:51.620Z",
+          "url": "/questions/1",
+          "choices": [
+            {
+              "choice": "Swift",
+              "url": "/questions/1/choices/1",
+              "votes": 2048
+            },
+            {
+              "choice": "Python",
+              "url": "/questions/1/choices/2",
+              "votes": 1024
+            },
+            {
+              "choice": "Objective-C",
+              "url": "/questions/1/choices/3",
+              "votes": 512
+            },
+            {
+              "choice": "Ruby",
+              "url": "/questions/1/choices/4",
+              "votes": 256
+            }
+          ]
+        }
+      },
+      "CreateaNewQuestionrequest": {
+        "title": "CreateaNewQuestionrequest",
+        "required": [
+          "question",
+          "choices"
+        ],
+        "type": "object",
+        "properties": {
+          "question": {
+            "type": "string"
+          },
+          "choices": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": ""
+          }
+        },
+        "example": {
+          "question": "Favourite programming language?",
+          "choices": [
+            "Swift",
+            "Python",
+            "Objective-C",
+            "Ruby"
+          ]
+        }
+      },
+      "CreateaNewQuestionresponse": {
+        "title": "CreateaNewQuestionresponse",
+        "required": [
+          "question",
+          "published_at",
+          "url",
+          "choices"
+        ],
+        "type": "object",
+        "properties": {
+          "question": {
+            "type": "string"
+          },
+          "published_at": {
+            "type": "string"
+          },
+          "url": {
+            "type": "string"
+          },
+          "choices": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Choice"
+            },
+            "description": ""
+          }
+        },
+        "example": {
+          "question": "Favourite programming language?",
+          "published_at": "2014-11-11T08:40:51.620Z",
+          "url": "/questions/2",
+          "choices": [
+            {
+              "choice": "Swift",
+              "url": "/questions/2/choices/1",
+              "votes": 0
+            },
+            {
+              "choice": "Python",
+              "url": "/questions/2/choices/2",
+              "votes": 0
+            },
+            {
+              "choice": "Objective-C",
+              "url": "/questions/2/choices/3",
+              "votes": 0
+            },
+            {
+              "choice": "Ruby",
+              "url": "/questions/2/choices/4",
+              "votes": 0
+            }
+          ]
+        }
+      }
+    }
+  },
+  "tags": [
+    {
+      "name": "Question",
+      "description": "Resources related to questions in the API."
+    }
+  ]
+}
